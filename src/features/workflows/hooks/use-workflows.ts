@@ -35,3 +35,33 @@ export const useCreateWorkflow = () => {
 		})
 	);
 };
+
+/**
+ * Hook to remove workflows
+ */
+
+export const useRemoveWorkflow = () => {
+	const trpc = useTRPC();
+	const queryClient = useQueryClient();
+
+	return useMutation(
+		trpc.workflows.remove.mutationOptions({
+			onSuccess: (data) => {
+				toast.success(`Workflow "${data.name}" removed`);
+
+				// Refresh list
+				queryClient.invalidateQueries(
+					trpc.workflows.getMany.queryKey({})
+				);
+
+				// Refresh single workflow page (if opened)
+				queryClient.invalidateQueries(
+					trpc.workflows.getOne.queryKey({ id: data.id })
+				);
+			},
+			onError: () => {
+				toast.error("Failed to remove workflow");
+			},
+		})
+	);
+};
