@@ -7,22 +7,38 @@ import {
 } from "@/trpc/init";
 import z from "zod";
 import { PAGINATION } from "@/config/constants";
+import { NodeType } from "@/generated/prisma/enums";
+import type { Node, Edge } from "@xyflow/react";
 
 export const workflowsRouter = createTRPCRouter({
+	// -------------------------
+	// CREATE WORKFLOW
+	// -------------------------
 	create: premiumProcedure.mutation(async ({ ctx }) => {
-		// Example mutation logic
+		// You must nest relational create under `data`
 		return prisma.workflow.create({
 			data: {
 				name: generateSlug(3),
 				userId: ctx.auth.user.id,
+
+				// ✅ CORRECT Prisma relation syntax
+				nodes: {
+					create: {
+						type: NodeType.INITIAL,
+						name: NodeType.INITIAL,
+						position: { x: 0, y: 0 },
+					},
+				},
 			},
 		});
 	}),
 
+	// -------------------------
+	// REMOVE WORKFLOW
+	// -------------------------
 	remove: protectedProcedure
 		.input(z.object({ id: z.string() }))
 		.mutation(async ({ ctx, input }) => {
-			// Example mutation logic
 			return prisma.workflow.delete({
 				where: {
 					id: input.id,
@@ -31,10 +47,12 @@ export const workflowsRouter = createTRPCRouter({
 			});
 		}),
 
+	// -------------------------
+	// UPDATE NAME
+	// -------------------------
 	updateName: protectedProcedure
 		.input(z.object({ id: z.string(), name: z.string().min(1) }))
 		.mutation(async ({ ctx, input }) => {
-			// Example mutation logic
 			return prisma.workflow.update({
 				where: {
 					id: input.id,
@@ -46,18 +64,51 @@ export const workflowsRouter = createTRPCRouter({
 			});
 		}),
 
+	// -------------------------
+	// GET ONE WORKFLOW
+	// -------------------------
 	getOne: protectedProcedure
 		.input(z.object({ id: z.string() }))
 		.query(async ({ ctx, input }) => {
-			// Example query logic
-			return prisma.workflow.findUniqueOrThrow({
+			const workflow = await prisma.workflow.findUniqueOrThrow({
 				where: {
 					id: input.id,
 					userId: ctx.auth.user.id,
 				},
+				include: {
+					nodes: true,
+					connections: true,
+				},
 			});
-		}),
 
+			// Transform nodes → React Flow format
+			const nodes: Node[] = workflow.nodes.map((node) => ({
+				id: node.id,
+				type: node.type,
+				position: node.position as { x: number; y: number },
+				data: (node.data as Record<string, unknown>) || {},
+			}));
+
+			// Transform connections → React Flow edges
+			const edges: Edge[] = workflow.connections.map((connection) => ({
+				id: connection.id,
+				source: connection.fromNodeId,
+				target: connection.toNodeId,
+				sourceHandle: connection.fromOutput,
+				targetHandle: connection.toInput,
+			}));
+
+			return {
+				id: workflow.id,
+				name: workflow.name,
+				nodes,
+				edges,
+			};
+		}), // ✅ IMPORTANT COMMA HERE!
+
+	// -------------------------
+	// GET MANY WORKFLOWS
+	// -------------------------
 	getMany: protectedProcedure
 		.input(
 			z.object({
@@ -72,6 +123,7 @@ export const workflowsRouter = createTRPCRouter({
 		)
 		.query(async ({ ctx, input }) => {
 			const { page, pageSize, search } = input;
+
 			const [items, totalCount] = await Promise.all([
 				prisma.workflow.findMany({
 					skip: (page - 1) * pageSize,
@@ -99,8 +151,6 @@ export const workflowsRouter = createTRPCRouter({
 			]);
 
 			const totalPages = Math.ceil(totalCount / pageSize);
-			const hasNextPage = page < totalPages;
-			const hasPreviousPage = page > 1;
 
 			return {
 				items,
@@ -108,8 +158,8 @@ export const workflowsRouter = createTRPCRouter({
 				pageSize,
 				totalCount,
 				totalPages,
-				hasNextPage,
-				hasPreviousPage,
+				hasNextPage: page < totalPages,
+				hasPreviousPage: page > 1,
 			};
 		}),
 });
