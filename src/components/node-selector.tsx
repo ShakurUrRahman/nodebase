@@ -9,9 +9,9 @@ import {
 	SheetDescription,
 } from "@/components/ui/sheet";
 import { Separator } from "./ui/separator";
-import { useReactFlow } from "@xyflow/react";
 import { useCallback } from "react";
 import { toast } from "sonner";
+import { useReactFlow } from "@xyflow/react";
 import { createId } from "@paralleldrive/cuid2";
 
 export type NodeTypeOption = {
@@ -56,13 +56,19 @@ export function NodeSelector({
 	const handleNodeSelect = useCallback(
 		(selection: NodeTypeOption) => {
 			// Check if trying to add a manual trigger when one already exists
-			const nodes = getNodes();
-			const hasManualTrigger = nodes.some(
-				(node) => node.type == NodeType.MANUAL_TRIGGER
-			);
-			if (hasManualTrigger) {
-				toast.error("Only one manual trigger is allowed per workflow");
-				return;
+			if (selection.type === NodeType.MANUAL_TRIGGER) {
+				const nodes = getNodes(); // ✅ correct call
+
+				const hasManualTrigger = nodes.some(
+					(node) => node.type === NodeType.MANUAL_TRIGGER
+				);
+
+				if (hasManualTrigger) {
+					toast.error(
+						"Only one manual trigger is allowed per workflow"
+					);
+					return;
+				}
 			}
 
 			setNodes((nodes) => {
