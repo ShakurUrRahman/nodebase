@@ -7,7 +7,7 @@
 		"build": "next build --turbopack",
 		"start": "next start",
 		"lint": "biome check",
-		"ngork:dev": "dotenv ngrok http --url=$NGORK_URL 3000",
+		"ngrok:dev": "dotenv ngrok http --url=$NGORK_URL 3000",
 		"format": "biome format --write"
 	},
 	"dependencies": {
