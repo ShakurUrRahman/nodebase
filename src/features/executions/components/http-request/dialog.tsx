@@ -94,7 +94,7 @@ export const HttpRequestDialog = ({
 		<Dialog open={open} onOpenChange={onOpenChange}>
 			<DialogContent>
 				<DialogHeader>
-					<DialogTitle>HTTP Request Trigger</DialogTitle>
+					<DialogTitle>HTTP Request</DialogTitle>
 					<DialogDescription>
 						Configure settings for the HTTP Request node.
 					</DialogDescription>
