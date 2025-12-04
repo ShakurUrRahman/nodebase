@@ -3,7 +3,6 @@ import type { NodeExecutor } from "@/features/executions/types";
 import { NonRetriableError } from "inngest";
 import ky, { type Options as KyOptions } from "ky";
 import { httpRequestChannel } from "@/inngest/channels/http-request";
-import { error } from "node:console";
 
 Handlebars.registerHelper("json", (context) => {
 	const jsonString = JSON.stringify(context, null, 2);
