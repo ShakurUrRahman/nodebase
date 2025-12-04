@@ -30,7 +30,7 @@ import Link from "next/link";
 type EntityHeaderProps = {
 	title: string;
 	description?: string;
-	newButtonLabel: string;
+	newButtonLabel?: string;
 	disabled?: boolean;
 	isCreating?: boolean;
 } & (
@@ -59,7 +59,7 @@ export const EntityHeader = ({
 				)}
 			</div>
 
-			{(onNew || !newButtonHref) && (
+			{(onNew || newButtonHref) && (
 				<Button
 					disabled={isCreating || disabled}
 					size="sm"

@@ -19,7 +19,7 @@ export const nodeComponents = {
 	[NodeType.STRIPE_TRIGGER]: StripeTriggerNode,
 	[NodeType.GEMINI]: GeminiNode,
 	[NodeType.OPENAI]: OpenAiNode,
-	[NodeType.OPENAI]: OpenAiNode,
+	[NodeType.ANTHROPIC]: AnthropicNode,
 	[NodeType.DISCORD]: DiscordNode,
 	[NodeType.SLACK]: SlackNode,
 } as const satisfies NodeTypes;
