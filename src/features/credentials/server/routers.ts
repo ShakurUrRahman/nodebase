@@ -7,6 +7,7 @@ import {
 import z from "zod";
 import { PAGINATION } from "@/config/constants";
 import { CredentialType } from "@/generated/prisma/enums";
+import { encrypt } from "@/lib/encryption";
 
 export const credentialsRouter = createTRPCRouter({
 	// -------------------------
@@ -23,13 +24,13 @@ export const credentialsRouter = createTRPCRouter({
 
 		.mutation(async ({ ctx, input }) => {
 			const { name, value, type } = input;
-			// You must nest relational create under `data`
+
 			return prisma.credential.create({
 				data: {
 					name,
 					userId: ctx.auth.user.id,
 					type,
-					value, //TODO: Consider encryption in production
+					value: encrypt(value),
 				},
 			});
 		}),
@@ -70,7 +71,7 @@ export const credentialsRouter = createTRPCRouter({
 				data: {
 					name,
 					type,
-					value, // TODO: Consider encrypting in production
+					value: encrypt(value),
 				},
 			});
 		}),
