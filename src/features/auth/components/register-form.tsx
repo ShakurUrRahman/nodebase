@@ -52,36 +52,28 @@ export function RegisterForm() {
 	});
 
 	const signInGithub = async () =>
-		await authClient.signIn.social(
-			{
-				provider: "github",
-				callbackURL: "/", // Use callbackURL instead of redirectTo
+		await authClient.signIn.social({
+			provider: "github",
+			redirectTo: "/",
+			onSuccess: () => {
+				router.push("/");
 			},
-			{
-				onSuccess: () => {
-					router.push("/");
-				},
-				onError: () => {
-					toast.error("Something went wrong");
-				},
-			}
-		);
+			onError: () => {
+				toast.error("Something went wrong");
+			},
+		});
 
 	const signInGoogle = async () =>
-		await authClient.signIn.social(
-			{
-				provider: "google",
-				callbackURL: "/", // Use callbackURL instead of redirectTo
+		await authClient.signIn.social({
+			provider: "google",
+			redirectTo: "/",
+			onSuccess: () => {
+				router.push("/");
 			},
-			{
-				onSuccess: () => {
-					router.push("/");
-				},
-				onError: () => {
-					toast.error("Something went wrong");
-				},
-			}
-		);
+			onError: () => {
+				toast.error("Something went wrong");
+			},
+		});
 
 	const onSubmit = async (values: RegisterFormValues) => {
 		await authClient.signUp.email(
