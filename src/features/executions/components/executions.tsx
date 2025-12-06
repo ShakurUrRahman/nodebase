@@ -19,8 +19,8 @@ import {
 	Loader2Icon,
 	XCircleIcon,
 } from "lucide-react";
-import { type ExecutionStatus } from "@/generated/prisma/enums";
 import { Execution } from "@/generated/prisma/client";
+import { ExecutionStatus } from "@/generated/prisma/enums";
 
 export const ExecutionsList = () => {
 	const executions = useSuspenseExecutions();
