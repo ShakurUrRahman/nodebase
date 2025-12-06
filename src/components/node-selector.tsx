@@ -1,4 +1,4 @@
-import { NodeType } from "@prisma/client";
+import { NodeType } from "@/generated/prisma";
 import { GlobeIcon, MousePointerIcon } from "lucide-react";
 import {
 	Sheet,

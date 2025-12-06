@@ -25,7 +25,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { type CredentialType } from "@prisma/client";
+import { type CredentialType } from "@/generated/prisma";
 import { useCredentialsByType } from "@/features/credentials/hooks/use-credentials";
 import {
 	Select,

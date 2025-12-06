@@ -1,6 +1,6 @@
 "use client";
 
-import { ExecutionStatus } from "@prisma/client";
+import { ExecutionStatus } from "@/generated/prisma";
 import {
 	Card,
 	CardContent,
