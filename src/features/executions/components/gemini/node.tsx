@@ -1,7 +1,7 @@
 "use client";
 
 import { memo, useState } from "react";
-import { useReactFlow, type NodeProps } from "@xyflow/react";
+import { type Node, useReactFlow, type NodeProps } from "@xyflow/react";
 import { BaseExecutionNode } from "../base-execution-node";
 import { AVAILABLE_MODELS, GeminiDialog, GeminiFormValue } from "./dialog";
 import { useNodeStatus } from "../../hooks/use-node-status";

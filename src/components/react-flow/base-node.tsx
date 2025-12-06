@@ -1,4 +1,4 @@
-import { ComponentProps, forwardRef } from "react";
+import { ComponentProps, forwardRef, HTMLAttributes } from "react";
 
 import { cn } from "@/lib/utils";
 import { CheckCircle2Icon, Loader2Icon, XCircleIcon } from "lucide-react";

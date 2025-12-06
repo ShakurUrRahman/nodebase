@@ -11,7 +11,7 @@ export type NodeStatusIndicatorProps = {
 	status?: NodeStatus;
 	variant?: NodeStatusVariant;
 	children: ReactNode;
-	className?: String;
+	className?: string;
 };
 
 export const SpinnerLoadingIndicator = ({

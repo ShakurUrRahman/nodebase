@@ -9,7 +9,7 @@ import {
 	SheetDescription,
 } from "@/components/ui/sheet";
 import { Separator } from "./ui/separator";
-import { useCallback } from "react";
+import { ComponentType, useCallback } from "react";
 import { toast } from "sonner";
 import { useReactFlow } from "@xyflow/react";
 import { createId } from "@paralleldrive/cuid2";
@@ -82,7 +82,7 @@ export const executionNodes: NodeTypeOption[] = [
 	},
 ];
 
-interface NodeSelectionProps {
+interface NodeSelectorProps {
 	open: boolean;
 	onOpenChange: (open: boolean) => void;
 	children: React.ReactNode;
@@ -99,7 +99,7 @@ export function NodeSelector({
 		(selection: NodeTypeOption) => {
 			// Check if trying to add a manual trigger when one already exists
 			if (selection.type === NodeType.MANUAL_TRIGGER) {
-				const nodes = getNodes(); // ✅ correct call
+				const nodes = getNodes();
 
 				const hasManualTrigger = nodes.some(
 					(node) => node.type === NodeType.MANUAL_TRIGGER

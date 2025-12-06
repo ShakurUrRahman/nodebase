@@ -9,7 +9,7 @@ import { GoogleFormTrigger } from "@/features/trigger/components/google-form-tri
 import { ManualTriggerNode } from "@/features/trigger/components/manual-trigger/node";
 import { StripeTriggerNode } from "@/features/trigger/components/stripe-trigger/node";
 import { NodeType } from "@/generated/prisma/enums";
-import type { NodeTypes } from "@xyflow/react";
+import { type NodeTypes } from "@xyflow/react";
 
 export const nodeComponents = {
 	[NodeType.INITIAL]: InitialNode,
