@@ -14,7 +14,7 @@ import { useSuspenseExecutions } from "../hooks/use-executions";
 import { useExecutionsParams } from "../hooks/use-executions-params";
 import { formatDistanceToNow } from "date-fns";
 import type { Execution } from "@/generated/prisma";
-import { ExecutionStatus, ExecutionType } from "@/generated/prisma/enums";
+import { ExecutionStatus, ExecutionType } from "@/generated/prisma";
 import {
 	CheckCircle2Icon,
 	ClockIcon,

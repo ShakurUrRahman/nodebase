@@ -22,7 +22,7 @@ import { useEntitySearch } from "@/hooks/use-entity-search";
 import { formatDistanceToNow } from "date-fns";
 import type { Credential } from "@/generated/prisma";
 
-import { CredentialType } from "@/generated/prisma/enums";
+import { CredentialType } from "@/generated/prisma";
 
 export const CredentialsSearch = () => {
 	const [params, setParams] = useCredentialsParams();
