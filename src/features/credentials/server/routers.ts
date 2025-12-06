@@ -6,8 +6,8 @@ import {
 } from "@/trpc/init";
 import z from "zod";
 import { PAGINATION } from "@/config/constants";
-import { CredentialType } from "@/generated/prisma";
 import { encrypt } from "@/lib/encryption";
+import { CredentialType } from "@/generated/prisma/enums";
 
 export const credentialsRouter = createTRPCRouter({
 	// -------------------------

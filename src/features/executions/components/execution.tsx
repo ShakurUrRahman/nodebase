@@ -1,6 +1,5 @@
 "use client";
 
-import { ExecutionStatus } from "@/generated/prisma";
 import {
 	Card,
 	CardContent,
@@ -25,6 +24,7 @@ import {
 	CollapsibleContent,
 	CollapsibleTrigger,
 } from "@/components/ui/collapsible";
+import { ExecutionStatus } from "@/generated/prisma/enums";
 
 const getStatusIcon = (status: ExecutionStatus) => {
 	switch (status) {
