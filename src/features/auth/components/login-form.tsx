@@ -66,7 +66,6 @@ export function LoginForm() {
 		await authClient.signIn.social(
 			{
 				provider: "github",
-				redirectTo: "/",
 			},
 			{
 				onSuccess: () => {
@@ -82,7 +81,6 @@ export function LoginForm() {
 		await authClient.signIn.social(
 			{
 				provider: "google",
-				redirectTo: "/",
 			},
 			{
 				onSuccess: () => {

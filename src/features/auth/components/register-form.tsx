@@ -55,7 +55,6 @@ export function RegisterForm() {
 		await authClient.signIn.social(
 			{
 				provider: "github",
-				redirectTo: "/",
 			},
 			{
 				onSuccess: () => {
@@ -71,7 +70,6 @@ export function RegisterForm() {
 		await authClient.signIn.social(
 			{
 				provider: "google",
-				redirectTo: "/",
 			},
 			{
 				onSuccess: () => {
