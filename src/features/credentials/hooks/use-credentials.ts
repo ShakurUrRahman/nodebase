@@ -79,22 +79,20 @@ export const useUpdateCredential = () => {
 	const queryClient = useQueryClient();
 	const trpc = useTRPC();
 
-	return useMutation(
-		trpc.credentials.update.mutationOptions({
-			onSuccess: (data) => {
-				toast.success(`Credential "${data.name}" saved`);
-				queryClient.invalidateQueries(
-					trpc.credentials.getMany.queryOptions({})
-				);
-				queryClient.invalidateQueries(
-					trpc.credentials.getOne.queryKey({ id: data.id })
-				);
-			},
-			onError: (error) => {
-				toast.error(`Failed to save credential: ${error.message}`);
-			},
-		})
-	);
+	return trpc.credentials.update.useMutation({
+		onSuccess: (data) => {
+			toast.success(`Credential "${data.name}" saved`);
+			queryClient.invalidateQueries(
+				trpc.credentials.getMany.queryOptions({})
+			);
+			queryClient.invalidateQueries(
+				trpc.credentials.getOne.queryKey({ id: data.id })
+			);
+		},
+		onError: (error) => {
+			toast.error(`Failed to save credential: ${error.message}`);
+		},
+	});
 };
 
 /**
