@@ -40,13 +40,17 @@ export const CredentialsSearch = () => {
 };
 
 export const CredentialsList = () => {
-	const credentials = useSuspenseCredentials();
+	const { data: credentials } = useSuspenseCredentials();
 
 	return (
 		<EntityList
-			items={credentials.data.items}
-			getKey={(credential) => credential.id}
-			renderItem={(credential) => <CredentialItem data={credential} />}
+			items={credentials.items}
+			getKey={(credential: (typeof credentials.items)[number]) =>
+				credential.id
+			}
+			renderItem={(credential: (typeof credentials.items)[number]) => (
+				<CredentialItem data={credential} />
+			)}
 			emptyView={<CredentialsEmpty />}
 		/>
 	);
