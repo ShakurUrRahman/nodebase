@@ -34,7 +34,7 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import { useCredentialsByType } from "@/features/credentials/hooks/use-credentials";
-import { type CredentialType } from "@/generated/prisma/enums";
+import { CredentialType } from "@/generated/prisma/enums";
 
 export const formSchema = z.object({
 	variableName: z
