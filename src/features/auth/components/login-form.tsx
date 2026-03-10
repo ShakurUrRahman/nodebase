@@ -56,9 +56,16 @@ export function LoginForm() {
 					router.push("/");
 				},
 				onError: (ctx) => {
-					toast.error(ctx.error.message);
+					if (ctx.error.status === 401) {
+						toast.error(
+							"This email is linked to Google or GitHub. Please sign in with those instead.",
+							{ duration: 5000 },
+						);
+					} else {
+						toast.error(ctx.error.message);
+					}
 				},
-			}
+			},
 		);
 	};
 
@@ -74,7 +81,7 @@ export function LoginForm() {
 				onError: () => {
 					toast.error("Something went wrong");
 				},
-			}
+			},
 		);
 
 	const signInGoogle = async () =>
@@ -89,7 +96,7 @@ export function LoginForm() {
 				onError: () => {
 					toast.error("Something went wrong");
 				},
-			}
+			},
 		);
 
 	const isPending = form.formState.isSubmitting;
