@@ -223,6 +223,6 @@ npm run lint       # Run Biome linter
 
 ---
 
-## License
+## Contact
 
-MIT © [Shakur Ur Rahman](https://github.com/ShakurUrRahman)
+Follow more - [Shakur Ur Rahman](https://shakur.netlify.app)
