@@ -32,7 +32,7 @@ export const geminiExecutor: NodeExecutor<GeminiData> = async ({
 		geminiChannel().status({
 			nodeId,
 			status: "loading",
-		})
+		}),
 	);
 
 	if (!data.variableName) {
@@ -40,7 +40,7 @@ export const geminiExecutor: NodeExecutor<GeminiData> = async ({
 			geminiChannel().status({
 				nodeId,
 				status: "error",
-			})
+			}),
 		);
 
 		throw new NonRetriableError("Gemini node: Variable name is missing");
@@ -51,7 +51,7 @@ export const geminiExecutor: NodeExecutor<GeminiData> = async ({
 			geminiChannel().status({
 				nodeId,
 				status: "error",
-			})
+			}),
 		);
 
 		throw new NonRetriableError("Gemini node: Credential is missing");
@@ -62,7 +62,7 @@ export const geminiExecutor: NodeExecutor<GeminiData> = async ({
 			geminiChannel().status({
 				nodeId,
 				status: "error",
-			})
+			}),
 		);
 
 		throw new NonRetriableError("Gemini node: User prompt is missing");
@@ -88,7 +88,7 @@ export const geminiExecutor: NodeExecutor<GeminiData> = async ({
 			geminiChannel().status({
 				nodeId,
 				status: "error",
-			})
+			}),
 		);
 		throw new NonRetriableError("Gemini node: Credential not found");
 	}
@@ -110,7 +110,7 @@ export const geminiExecutor: NodeExecutor<GeminiData> = async ({
 					recordInputs: true,
 					recordOutputs: true,
 				},
-			}
+			},
 		);
 
 		const text =
@@ -120,7 +120,7 @@ export const geminiExecutor: NodeExecutor<GeminiData> = async ({
 			geminiChannel().status({
 				nodeId,
 				status: "success",
-			})
+			}),
 		);
 
 		return {
@@ -130,12 +130,20 @@ export const geminiExecutor: NodeExecutor<GeminiData> = async ({
 			},
 		};
 	} catch (error) {
-		await publish(
-			geminiChannel().status({
-				nodeId,
-				status: "error",
-			})
-		);
+		await publish(geminiChannel().status({ nodeId, status: "error" }));
+
+		if (
+			error instanceof Error &&
+			(error.message.includes("exceeded your current quota") ||
+				error.message.includes("429") ||
+				error.message.includes("TooManyRequests") ||
+				error.message.includes("quota"))
+		) {
+			throw new NonRetriableError(
+				`Gemini quota exceeded — try again later: ${error.message}`,
+			);
+		}
+
 		throw error;
 	}
 };
